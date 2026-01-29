@@ -2,10 +2,10 @@ naftiko:
   schema: >-
     https://github.com/naftiko/schema/blob/main/core/capability/capabiity-schema.yml
 info:
-  name: Youtube API & MCP Sandbox
+  name: YouTube API & MCP Sandbox
   description: >-
-    This is a Youtube sandbox that uses OpenAPI, Microcks, Bruno, and Backstage
-    to provide a 3rd-party REST API and MCP sandbox for Youtube.
+    This is a YouTube sandbox that uses OpenAPI, Microcks, Bruno, and Backstage
+    to provide a 3rd-party REST API and MCP sandbox for YouTube.
   tags:
     - Videos
     - Podcasts
@@ -144,8 +144,8 @@ change:
   state: New
   schemaVersion: 0.1.0
   capabilityVersion: 0.1.0
-  updated: '2026-1-28T00:00:00Z'
-  created: '2026-1-28T00:00:00Z'
+  updated: '2026-1-29T00:00:00Z'
+  created: '2026-1-29T00:00:00Z'
 source:
   httpUrl: https://github.com/naftiko/youtube-sandbox
   sshUrl: git@github.com:naftiko/youtube-sandbox.git
@@ -181,10 +181,10 @@ standards:
     docUrl: https://naftiko.github.io/technology/docs/standards/api-commons/
 services:
   - aid: youtube
-    name: Youtube API & MCP Sandbox
+    name: YouTube API & MCP Sandbox
     description: >-
-      This is a Youtube sandbox that uses OpenAPI, Microcks, Bruno, and
-      Backstage to provide a 3rd-party REST API and MCP sandbox for Youtube.
+      This is a YouTube sandbox that uses OpenAPI, Microcks, Bruno, and
+      Backstage to provide a 3rd-party REST API and MCP sandbox for YouTube.
     docUrl: https://naftiko.github.io/technology/docs/services/youtube/
     apisJson: >-
       https://raw.githubusercontent.com/api-evangelist/youtube/refs/heads/main/apis.yml
