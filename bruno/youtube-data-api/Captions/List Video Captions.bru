@@ -1,0 +1,126 @@
+meta {
+  name: List Video Captions
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/captions
+  body: none
+  auth: inherit
+}
+
+params:query {
+  part: 
+  videoId: 
+  ~id: 
+  ~key: 
+}
+
+example {
+  name: Successful caption list response
+  description: Example response for retrieving video captions
+  
+  request: {
+    url: {{baseUrl}}/captions
+    method: GET
+    mode: none
+    params:query: {
+      part: 
+      videoId: 
+      ~id: 
+      ~key: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#captionListResponse",
+          "etag": "captions123etag",
+          "items": [
+            {
+              "kind": "youtube#caption",
+              "etag": "caption1etag",
+              "id": "CAPTIONabc123",
+              "snippet": {
+                "videoId": "dQw4w9WgXcQ",
+                "lastUpdated": "2024-03-15T10:30:00Z",
+                "trackKind": "standard",
+                "language": "en",
+                "name": "English",
+                "audioTrackType": "primary",
+                "isCC": true,
+                "isLarge": false,
+                "isEasyReader": false,
+                "isDraft": false,
+                "isAutoSynced": false,
+                "status": "serving"
+              }
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Not found error
+  description: Example error response when resource is not found
+  
+  request: {
+    url: {{baseUrl}}/captions
+    method: GET
+    mode: none
+    params:query: {
+      part: 
+      videoId: 
+      ~id: 
+      ~key: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 404
+      text: Not Found
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 404,
+            "message": "Resource not found",
+            "errors": [
+              {
+                "domain": "youtube.video",
+                "reason": "videoNotFound",
+                "message": "The video identified by the parameter id could not be found",
+                "locationType": "parameter",
+                "location": "id"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

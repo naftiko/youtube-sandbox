@@ -1,0 +1,127 @@
+meta {
+  name: List Group Items
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/groupItems?groupId=123
+  body: none
+  auth: inherit
+}
+
+params:query {
+  groupId: 123
+  ~onBehalfOfContentOwner: 
+  ~access_token: 
+  ~prettyPrint: 
+}
+
+example {
+  name: Successful group items list response
+  description: Example response containing items in an analytics group
+  
+  request: {
+    url: {{baseUrl}}/groupItems
+    method: GET
+    mode: none
+    params:query: {
+      groupId: 
+      ~onBehalfOfContentOwner: 
+      ~access_token: 
+      ~prettyPrint: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#groupItemListResponse",
+          "etag": "items123abc",
+          "items": [
+            {
+              "kind": "youtube#groupItem",
+              "etag": "item1abc",
+              "id": "ITEMabc123",
+              "groupId": "ABCdef123456",
+              "resource": {
+                "kind": "youtube#video",
+                "id": "dQw4w9WgXcQ"
+              }
+            },
+            {
+              "kind": "youtube#groupItem",
+              "etag": "item2def",
+              "id": "ITEMdef456",
+              "groupId": "ABCdef123456",
+              "resource": {
+                "kind": "youtube#video",
+                "id": "abc123XYZ789"
+              }
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Unauthorized error
+  description: Example error response for authentication failure
+  
+  request: {
+    url: {{baseUrl}}/groupItems
+    method: GET
+    mode: none
+    params:query: {
+      groupId: 
+      ~onBehalfOfContentOwner: 
+      ~access_token: 
+      ~prettyPrint: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 401,
+            "message": "Invalid credentials",
+            "errors": [
+              {
+                "domain": "youtube.analytics",
+                "reason": "authError",
+                "message": "The access token is invalid or expired",
+                "locationType": "header",
+                "location": "Authorization"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

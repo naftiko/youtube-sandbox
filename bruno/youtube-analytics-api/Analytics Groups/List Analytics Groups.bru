@@ -1,0 +1,136 @@
+meta {
+  name: List Analytics Groups
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/groups
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~id: 
+  ~onBehalfOfContentOwner: 
+  ~pageToken: 
+  ~access_token: 
+  ~prettyPrint: 
+}
+
+example {
+  name: Successful group list response
+  description: Example response containing analytics groups
+  
+  request: {
+    url: {{baseUrl}}/groups
+    method: GET
+    mode: none
+    params:query: {
+      ~id: 
+      ~onBehalfOfContentOwner: 
+      ~pageToken: 
+      ~access_token: 
+      ~prettyPrint: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#groupListResponse",
+          "etag": "abc123def456",
+          "items": [
+            {
+              "kind": "youtube#group",
+              "etag": "xyz789abc123",
+              "id": "ABCdef123456",
+              "snippet": {
+                "title": "Top Performing Videos Q1 2024",
+                "publishedAt": "2024-01-15T10:30:00Z"
+              },
+              "contentDetails": {
+                "itemCount": 25,
+                "itemType": "youtube#video"
+              }
+            },
+            {
+              "kind": "youtube#group",
+              "etag": "mno456pqr789",
+              "id": "GHIjkl789012",
+              "snippet": {
+                "title": "Channel Performance Tracking",
+                "publishedAt": "2024-02-01T14:00:00Z"
+              },
+              "contentDetails": {
+                "itemCount": 5,
+                "itemType": "youtube#channel"
+              }
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Unauthorized error
+  description: Example error response for authentication failure
+  
+  request: {
+    url: {{baseUrl}}/groups
+    method: GET
+    mode: none
+    params:query: {
+      ~id: 
+      ~onBehalfOfContentOwner: 
+      ~pageToken: 
+      ~access_token: 
+      ~prettyPrint: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 401,
+            "message": "Invalid credentials",
+            "errors": [
+              {
+                "domain": "youtube.analytics",
+                "reason": "authError",
+                "message": "The access token is invalid or expired",
+                "locationType": "header",
+                "location": "Authorization"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

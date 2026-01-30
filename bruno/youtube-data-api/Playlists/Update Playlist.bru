@@ -1,0 +1,162 @@
+meta {
+  name: Update Playlist
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{baseUrl}}/playlists/:playlistId
+  body: json
+  auth: inherit
+}
+
+params:query {
+  part: 
+  ~access_token: 
+}
+
+params:path {
+  playlistId: 
+}
+
+body:json {
+  {
+    "id": "",
+    "snippet": {
+      "title": "",
+      "description": ""
+    }
+  }
+}
+
+example {
+  name: Successfully created playlist (Playlist update request)
+  description: Example response for a newly created playlist
+  
+  request: {
+    url: {{baseUrl}}/playlists/:playlistId
+    method: PUT
+    mode: json
+    params:query: {
+      part: 
+      ~access_token: 
+    }
+  
+    params:path: {
+      playlistId: 
+    }
+  
+    body:json: {
+      {
+        "id": "PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf",
+        "snippet": {
+          "title": "Updated Playlist Name",
+          "description": "Updated description"
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#playlist",
+          "etag": "newplaylist123",
+          "id": "NEWplaylist456",
+          "snippet": {
+            "publishedAt": "2024-03-20T14:00:00Z",
+            "channelId": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
+            "title": "My New Playlist",
+            "description": "A collection of my favorite videos",
+            "thumbnails": {
+              "default": {
+                "url": "https://i.ytimg.com/vi/default.jpg",
+                "width": 120,
+                "height": 90
+              }
+            },
+            "channelTitle": "My Channel"
+          },
+          "contentDetails": {
+            "itemCount": 0
+          },
+          "status": {
+            "privacyStatus": "public"
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Not found error (Playlist update request)
+  description: Example error response when resource is not found
+  
+  request: {
+    url: {{baseUrl}}/playlists/:playlistId
+    method: PUT
+    mode: json
+    params:query: {
+      part: 
+      ~access_token: 
+    }
+  
+    params:path: {
+      playlistId: 
+    }
+  
+    body:json: {
+      {
+        "id": "PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf",
+        "snippet": {
+          "title": "Updated Playlist Name",
+          "description": "Updated description"
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 404
+      text: Not Found
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 404,
+            "message": "Resource not found",
+            "errors": [
+              {
+                "domain": "youtube.video",
+                "reason": "videoNotFound",
+                "message": "The video identified by the parameter id could not be found",
+                "locationType": "parameter",
+                "location": "id"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

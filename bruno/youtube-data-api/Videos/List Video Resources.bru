@@ -1,0 +1,165 @@
+meta {
+  name: List Video Resources
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/videos
+  body: none
+  auth: inherit
+}
+
+params:query {
+  part: 
+  ~id: 
+  ~chart: 
+  ~videoCategoryId: 
+  ~regionCode: 
+  ~maxResults: 
+  ~pageToken: 
+  ~key: 
+}
+
+example {
+  name: Successful video list response
+  description: Example response for retrieving video details
+  
+  request: {
+    url: {{baseUrl}}/videos
+    method: GET
+    mode: none
+    params:query: {
+      part: 
+      ~id: 
+      ~chart: 
+      ~videoCategoryId: 
+      ~regionCode: 
+      ~maxResults: 
+      ~pageToken: 
+      ~key: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#videoListResponse",
+          "etag": "abc123xyz789",
+          "pageInfo": {
+            "totalResults": 1,
+            "resultsPerPage": 1
+          },
+          "items": [
+            {
+              "kind": "youtube#video",
+              "etag": "video123etag",
+              "id": "dQw4w9WgXcQ",
+              "snippet": {
+                "publishedAt": "2024-03-15T10:30:00Z",
+                "channelId": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
+                "title": "OpenAPI Tutorial: Building REST APIs",
+                "description": "Learn how to build REST APIs...",
+                "thumbnails": {
+                  "default": {
+                    "url": "https://i.ytimg.com/vi/dQw4w9WgXcQ/default.jpg",
+                    "width": 120,
+                    "height": 90
+                  }
+                },
+                "channelTitle": "Google Developers",
+                "tags": [
+                  "openapi",
+                  "rest api"
+                ],
+                "categoryId": "28"
+              },
+              "contentDetails": {
+                "duration": "PT15M33S",
+                "dimension": "2d",
+                "definition": "hd",
+                "caption": "true",
+                "licensedContent": true
+              },
+              "statistics": {
+                "viewCount": "1500000",
+                "likeCount": "45000",
+                "commentCount": "2500"
+              },
+              "status": {
+                "uploadStatus": "processed",
+                "privacyStatus": "public",
+                "license": "youtube",
+                "embeddable": true
+              }
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Not found error
+  description: Example error response when resource is not found
+  
+  request: {
+    url: {{baseUrl}}/videos
+    method: GET
+    mode: none
+    params:query: {
+      part: 
+      ~id: 
+      ~chart: 
+      ~videoCategoryId: 
+      ~regionCode: 
+      ~maxResults: 
+      ~pageToken: 
+      ~key: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 404
+      text: Not Found
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 404,
+            "message": "Resource not found",
+            "errors": [
+              {
+                "domain": "youtube.video",
+                "reason": "videoNotFound",
+                "message": "The video identified by the parameter id could not be found",
+                "locationType": "parameter",
+                "location": "id"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

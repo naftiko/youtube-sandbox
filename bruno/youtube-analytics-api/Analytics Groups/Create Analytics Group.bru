@@ -1,0 +1,199 @@
+meta {
+  name: Create Analytics Group
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/groups
+  body: json
+  auth: inherit
+}
+
+params:query {
+  ~onBehalfOfContentOwner: 
+  ~access_token: 
+}
+
+body:json {
+  {
+    "snippet": {
+      "title": ""
+    },
+    "contentDetails": {
+      "itemType": ""
+    }
+  }
+}
+
+example {
+  name: Successfully created group (Group creation request)
+  description: Example response for a newly created analytics group
+  
+  request: {
+    url: {{baseUrl}}/groups
+    method: POST
+    mode: json
+    params:query: {
+      ~onBehalfOfContentOwner: 
+      ~access_token: 
+    }
+  
+    body:json: {
+      {
+        "snippet": {
+          "title": "My New Analytics Group"
+        },
+        "contentDetails": {
+          "itemType": "youtube#video"
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#group",
+          "etag": "newgroup123",
+          "id": "NEWgroup456789",
+          "snippet": {
+            "title": "My New Analytics Group",
+            "publishedAt": "2024-03-01T09:00:00Z"
+          },
+          "contentDetails": {
+            "itemCount": 0,
+            "itemType": "youtube#video"
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Bad request error (Group creation request)
+  description: Example error response for invalid parameters
+  
+  request: {
+    url: {{baseUrl}}/groups
+    method: POST
+    mode: json
+    params:query: {
+      ~onBehalfOfContentOwner: 
+      ~access_token: 
+    }
+  
+    body:json: {
+      {
+        "snippet": {
+          "title": "My New Analytics Group"
+        },
+        "contentDetails": {
+          "itemType": "youtube#video"
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 400
+      text: Bad Request
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 400,
+            "message": "Invalid parameter value",
+            "errors": [
+              {
+                "domain": "youtube.analytics",
+                "reason": "invalidParameter",
+                "message": "The parameter 'startDate' has an invalid value",
+                "locationType": "parameter",
+                "location": "startDate"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Unauthorized error (Group creation request)
+  description: Example error response for authentication failure
+  
+  request: {
+    url: {{baseUrl}}/groups
+    method: POST
+    mode: json
+    params:query: {
+      ~onBehalfOfContentOwner: 
+      ~access_token: 
+    }
+  
+    body:json: {
+      {
+        "snippet": {
+          "title": "My New Analytics Group"
+        },
+        "contentDetails": {
+          "itemType": "youtube#video"
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 401,
+            "message": "Invalid credentials",
+            "errors": [
+              {
+                "domain": "youtube.analytics",
+                "reason": "authError",
+                "message": "The access token is invalid or expired",
+                "locationType": "header",
+                "location": "Authorization"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,285 @@
+meta {
+  name: Retrieve YouTube Analytics Reports
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/reports?ids=123&startDate&endDate&metrics
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ids: 123
+  startDate: 
+  endDate: 
+  metrics: 
+  ~dimensions: 
+  ~filters: 
+  ~sort: 
+  ~maxResults: 
+  ~startIndex: 
+  ~currency: 
+  ~access_token: 
+  ~prettyPrint: 
+}
+
+example {
+  name: Successful analytics report response
+  description: Example response containing video views and engagement metrics
+  
+  request: {
+    url: {{baseUrl}}/reports
+    method: GET
+    mode: none
+    params:query: {
+      ids: 
+      startDate: 
+      endDate: 
+      metrics: 
+      ~dimensions: 
+      ~filters: 
+      ~sort: 
+      ~maxResults: 
+      ~startIndex: 
+      ~currency: 
+      ~access_token: 
+      ~prettyPrint: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtubeAnalytics#resultTable",
+          "columnHeaders": [
+            {
+              "name": "video",
+              "columnType": "DIMENSION",
+              "dataType": "STRING"
+            },
+            {
+              "name": "views",
+              "columnType": "METRIC",
+              "dataType": "INTEGER"
+            },
+            {
+              "name": "estimatedMinutesWatched",
+              "columnType": "METRIC",
+              "dataType": "FLOAT"
+            },
+            {
+              "name": "averageViewDuration",
+              "columnType": "METRIC",
+              "dataType": "FLOAT"
+            },
+            {
+              "name": "likes",
+              "columnType": "METRIC",
+              "dataType": "INTEGER"
+            }
+          ],
+          "rows": [
+            [
+              "dQw4w9WgXcQ",
+              1500000,
+              3750000.5,
+              150.2,
+              45000
+            ],
+            [
+              "abc123XYZ789",
+              500000,
+              1000000,
+              120,
+              15000
+            ]
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Bad request error
+  description: Example error response for invalid parameters
+  
+  request: {
+    url: {{baseUrl}}/reports
+    method: GET
+    mode: none
+    params:query: {
+      ids: 
+      startDate: 
+      endDate: 
+      metrics: 
+      ~dimensions: 
+      ~filters: 
+      ~sort: 
+      ~maxResults: 
+      ~startIndex: 
+      ~currency: 
+      ~access_token: 
+      ~prettyPrint: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 400
+      text: Bad Request
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 400,
+            "message": "Invalid parameter value",
+            "errors": [
+              {
+                "domain": "youtube.analytics",
+                "reason": "invalidParameter",
+                "message": "The parameter 'startDate' has an invalid value",
+                "locationType": "parameter",
+                "location": "startDate"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Unauthorized error
+  description: Example error response for authentication failure
+  
+  request: {
+    url: {{baseUrl}}/reports
+    method: GET
+    mode: none
+    params:query: {
+      ids: 
+      startDate: 
+      endDate: 
+      metrics: 
+      ~dimensions: 
+      ~filters: 
+      ~sort: 
+      ~maxResults: 
+      ~startIndex: 
+      ~currency: 
+      ~access_token: 
+      ~prettyPrint: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 401,
+            "message": "Invalid credentials",
+            "errors": [
+              {
+                "domain": "youtube.analytics",
+                "reason": "authError",
+                "message": "The access token is invalid or expired",
+                "locationType": "header",
+                "location": "Authorization"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Forbidden error
+  description: Example error response for insufficient permissions
+  
+  request: {
+    url: {{baseUrl}}/reports
+    method: GET
+    mode: none
+    params:query: {
+      ids: 
+      startDate: 
+      endDate: 
+      metrics: 
+      ~dimensions: 
+      ~filters: 
+      ~sort: 
+      ~maxResults: 
+      ~startIndex: 
+      ~currency: 
+      ~access_token: 
+      ~prettyPrint: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 403
+      text: Forbidden
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 403,
+            "message": "Access forbidden",
+            "errors": [
+              {
+                "domain": "youtube.analytics",
+                "reason": "forbidden",
+                "message": "The authenticated user does not have permission to access this resource",
+                "locationType": "header",
+                "location": "Authorization"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "youtube-data-api",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

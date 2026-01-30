@@ -1,0 +1,150 @@
+meta {
+  name: List Channel Resources
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/channels
+  body: none
+  auth: inherit
+}
+
+params:query {
+  part: 
+  ~channelId: 
+  ~forUsername: 
+  ~mine: 
+  ~maxResults: 
+  ~pageToken: 
+  ~key: 
+}
+
+example {
+  name: Successful channel list response
+  description: Example response for retrieving channel details
+  
+  request: {
+    url: {{baseUrl}}/channels
+    method: GET
+    mode: none
+    params:query: {
+      part: 
+      ~channelId: 
+      ~forUsername: 
+      ~mine: 
+      ~maxResults: 
+      ~pageToken: 
+      ~key: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#channelListResponse",
+          "etag": "channel123etag",
+          "pageInfo": {
+            "totalResults": 1,
+            "resultsPerPage": 1
+          },
+          "items": [
+            {
+              "kind": "youtube#channel",
+              "etag": "ch123etag",
+              "id": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
+              "snippet": {
+                "title": "Google Developers",
+                "description": "The Google Developers channel...",
+                "customUrl": "@GoogleDevelopers",
+                "publishedAt": "2007-08-23T00:34:43Z",
+                "thumbnails": {
+                  "default": {
+                    "url": "https://yt3.ggpht.com/channel_default.jpg",
+                    "width": 88,
+                    "height": 88
+                  }
+                },
+                "country": "US"
+              },
+              "contentDetails": {
+                "relatedPlaylists": {
+                  "uploads": "UU_x5XG1OV2P6uZZ5FSM9Ttw"
+                }
+              },
+              "statistics": {
+                "viewCount": "500000000",
+                "subscriberCount": "3000000",
+                "hiddenSubscriberCount": false,
+                "videoCount": "5000"
+              }
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Not found error
+  description: Example error response when resource is not found
+  
+  request: {
+    url: {{baseUrl}}/channels
+    method: GET
+    mode: none
+    params:query: {
+      part: 
+      ~channelId: 
+      ~forUsername: 
+      ~mine: 
+      ~maxResults: 
+      ~pageToken: 
+      ~key: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 404
+      text: Not Found
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 404,
+            "message": "Resource not found",
+            "errors": [
+              {
+                "domain": "youtube.video",
+                "reason": "videoNotFound",
+                "message": "The video identified by the parameter id could not be found",
+                "locationType": "parameter",
+                "location": "id"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

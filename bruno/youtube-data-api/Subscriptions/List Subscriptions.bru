@@ -1,0 +1,148 @@
+meta {
+  name: List Subscriptions
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/subscriptions
+  body: none
+  auth: inherit
+}
+
+params:query {
+  part: 
+  ~channelId: 
+  ~mine: 
+  ~forChannelId: 
+  ~order: 
+  ~maxResults: 
+  ~pageToken: 
+  ~access_token: 
+}
+
+example {
+  name: Successful subscription list response
+  description: Example response for retrieving subscriptions
+  
+  request: {
+    url: {{baseUrl}}/subscriptions
+    method: GET
+    mode: none
+    params:query: {
+      part: 
+      ~channelId: 
+      ~mine: 
+      ~forChannelId: 
+      ~order: 
+      ~maxResults: 
+      ~pageToken: 
+      ~access_token: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#subscriptionListResponse",
+          "etag": "subs123etag",
+          "pageInfo": {
+            "totalResults": 50,
+            "resultsPerPage": 5
+          },
+          "items": [
+            {
+              "kind": "youtube#subscription",
+              "etag": "sub1etag",
+              "id": "SUBScription123abc",
+              "snippet": {
+                "publishedAt": "2024-01-15T10:30:00Z",
+                "title": "Google Developers",
+                "description": "The Google Developers channel...",
+                "resourceId": {
+                  "kind": "youtube#channel",
+                  "channelId": "UC_x5XG1OV2P6uZZ5FSM9Ttw"
+                },
+                "thumbnails": {
+                  "default": {
+                    "url": "https://yt3.ggpht.com/channel.jpg",
+                    "width": 88,
+                    "height": 88
+                  }
+                }
+              },
+              "contentDetails": {
+                "totalItemCount": 500,
+                "newItemCount": 5
+              }
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Unauthorized error
+  description: Example error response for authentication failure
+  
+  request: {
+    url: {{baseUrl}}/subscriptions
+    method: GET
+    mode: none
+    params:query: {
+      part: 
+      ~channelId: 
+      ~mine: 
+      ~forChannelId: 
+      ~order: 
+      ~maxResults: 
+      ~pageToken: 
+      ~access_token: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 401,
+            "message": "Invalid credentials",
+            "errors": [
+              {
+                "domain": "youtube.authentication",
+                "reason": "authError",
+                "message": "The access token is invalid or expired",
+                "locationType": "header",
+                "location": "Authorization"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

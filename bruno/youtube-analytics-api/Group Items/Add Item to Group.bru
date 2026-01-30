@@ -1,0 +1,135 @@
+meta {
+  name: Add Item to Group
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/groupItems
+  body: json
+  auth: inherit
+}
+
+params:query {
+  ~onBehalfOfContentOwner: 
+  ~access_token: 
+}
+
+body:json {
+  {
+    "groupId": "",
+    "resource": {
+      "kind": "",
+      "id": ""
+    }
+  }
+}
+
+example {
+  name: Successfully added item to group (Add item to group request)
+  description: Example response for a newly added group item
+  
+  request: {
+    url: {{baseUrl}}/groupItems
+    method: POST
+    mode: json
+    params:query: {
+      ~onBehalfOfContentOwner: 
+      ~access_token: 
+    }
+  
+    body:json: {
+      {
+        "groupId": "ABCdef123456",
+        "resource": {
+          "kind": "youtube#video",
+          "id": "dQw4w9WgXcQ"
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#groupItem",
+          "etag": "newitem789",
+          "id": "NEWitem123456",
+          "groupId": "ABCdef123456",
+          "resource": {
+            "kind": "youtube#video",
+            "id": "dQw4w9WgXcQ"
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Bad request error (Add item to group request)
+  description: Example error response for invalid parameters
+  
+  request: {
+    url: {{baseUrl}}/groupItems
+    method: POST
+    mode: json
+    params:query: {
+      ~onBehalfOfContentOwner: 
+      ~access_token: 
+    }
+  
+    body:json: {
+      {
+        "groupId": "ABCdef123456",
+        "resource": {
+          "kind": "youtube#video",
+          "id": "dQw4w9WgXcQ"
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 400
+      text: Bad Request
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 400,
+            "message": "Invalid parameter value",
+            "errors": [
+              {
+                "domain": "youtube.analytics",
+                "reason": "invalidParameter",
+                "message": "The parameter 'startDate' has an invalid value",
+                "locationType": "parameter",
+                "location": "startDate"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

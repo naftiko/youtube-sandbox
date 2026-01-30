@@ -1,0 +1,152 @@
+meta {
+  name: Subscribe to Channel
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/subscriptions
+  body: json
+  auth: inherit
+}
+
+params:query {
+  part: 
+  ~access_token: 
+}
+
+body:json {
+  {
+    "snippet": {
+      "resourceId": {
+        "kind": "",
+        "channelId": ""
+      }
+    }
+  }
+}
+
+example {
+  name: Successfully created subscription (Subscription creation request)
+  description: Example response for a new subscription
+  
+  request: {
+    url: {{baseUrl}}/subscriptions
+    method: POST
+    mode: json
+    params:query: {
+      part: 
+      ~access_token: 
+    }
+  
+    body:json: {
+      {
+        "snippet": {
+          "resourceId": {
+            "kind": "youtube#channel",
+            "channelId": "UC_x5XG1OV2P6uZZ5FSM9Ttw"
+          }
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#subscription",
+          "etag": "newsub123",
+          "id": "NEWsub456",
+          "snippet": {
+            "publishedAt": "2024-03-20T14:00:00Z",
+            "title": "Subscribed Channel",
+            "resourceId": {
+              "kind": "youtube#channel",
+              "channelId": "UC_x5XG1OV2P6uZZ5FSM9Ttw"
+            },
+            "thumbnails": {
+              "default": {
+                "url": "https://yt3.ggpht.com/channel.jpg",
+                "width": 88,
+                "height": 88
+              }
+            }
+          },
+          "contentDetails": {
+            "totalItemCount": 500,
+            "newItemCount": 0
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Bad request error (Subscription creation request)
+  description: Example error response for invalid parameters
+  
+  request: {
+    url: {{baseUrl}}/subscriptions
+    method: POST
+    mode: json
+    params:query: {
+      part: 
+      ~access_token: 
+    }
+  
+    body:json: {
+      {
+        "snippet": {
+          "resourceId": {
+            "kind": "youtube#channel",
+            "channelId": "UC_x5XG1OV2P6uZZ5FSM9Ttw"
+          }
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 400
+      text: Bad Request
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 400,
+            "message": "Invalid parameter value",
+            "errors": [
+              {
+                "domain": "youtube.parameter",
+                "reason": "invalidParameter",
+                "message": "The parameter 'part' is required",
+                "locationType": "parameter",
+                "location": "part"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

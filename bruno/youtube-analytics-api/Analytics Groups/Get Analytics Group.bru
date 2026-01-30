@@ -1,0 +1,123 @@
+meta {
+  name: Get Analytics Group
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/groups/:groupId
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~onBehalfOfContentOwner: 
+  ~access_token: 
+  ~prettyPrint: 
+}
+
+params:path {
+  groupId: 
+}
+
+example {
+  name: Successfully created group
+  description: Example response for a newly created analytics group
+  
+  request: {
+    url: {{baseUrl}}/groups/:groupId
+    method: GET
+    mode: none
+    params:query: {
+      ~onBehalfOfContentOwner: 
+      ~access_token: 
+      ~prettyPrint: 
+    }
+  
+    params:path: {
+      groupId: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#group",
+          "etag": "newgroup123",
+          "id": "NEWgroup456789",
+          "snippet": {
+            "title": "My New Analytics Group",
+            "publishedAt": "2024-03-01T09:00:00Z"
+          },
+          "contentDetails": {
+            "itemCount": 0,
+            "itemType": "youtube#video"
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Not found error
+  description: Example error response when resource is not found
+  
+  request: {
+    url: {{baseUrl}}/groups/:groupId
+    method: GET
+    mode: none
+    params:query: {
+      ~onBehalfOfContentOwner: 
+      ~access_token: 
+      ~prettyPrint: 
+    }
+  
+    params:path: {
+      groupId: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 404
+      text: Not Found
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 404,
+            "message": "Resource not found",
+            "errors": [
+              {
+                "domain": "youtube.analytics",
+                "reason": "notFound",
+                "message": "The specified group was not found",
+                "locationType": "parameter",
+                "location": "groupId"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

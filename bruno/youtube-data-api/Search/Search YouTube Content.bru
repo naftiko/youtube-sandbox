@@ -1,0 +1,212 @@
+meta {
+  name: Search YouTube Content
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/search
+  body: none
+  auth: inherit
+}
+
+params:query {
+  part: 
+  ~q: 
+  ~type: 
+  ~channelId: 
+  ~maxResults: 
+  ~order: 
+  ~publishedAfter: 
+  ~publishedBefore: 
+  ~regionCode: 
+  ~pageToken: 
+  ~key: 
+}
+
+example {
+  name: Successful search results
+  description: Example response for a video search query
+  
+  request: {
+    url: {{baseUrl}}/search
+    method: GET
+    mode: none
+    params:query: {
+      part: 
+      ~q: 
+      ~type: 
+      ~channelId: 
+      ~maxResults: 
+      ~order: 
+      ~publishedAfter: 
+      ~publishedBefore: 
+      ~regionCode: 
+      ~pageToken: 
+      ~key: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#searchListResponse",
+          "etag": "abc123def456",
+          "nextPageToken": "CAUQAA",
+          "regionCode": "US",
+          "pageInfo": {
+            "totalResults": 1000000,
+            "resultsPerPage": 5
+          },
+          "items": [
+            {
+              "kind": "youtube#searchResult",
+              "etag": "xyz789abc123",
+              "id": {
+                "kind": "youtube#video",
+                "videoId": "dQw4w9WgXcQ"
+              },
+              "snippet": {
+                "publishedAt": "2024-03-15T10:30:00Z",
+                "channelId": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
+                "title": "OpenAPI Tutorial: Building REST APIs",
+                "description": "Learn how to build REST APIs using OpenAPI...",
+                "thumbnails": {
+                  "default": {
+                    "url": "https://i.ytimg.com/vi/dQw4w9WgXcQ/default.jpg",
+                    "width": 120,
+                    "height": 90
+                  }
+                },
+                "channelTitle": "Google Developers"
+              }
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Bad request error
+  description: Example error response for invalid parameters
+  
+  request: {
+    url: {{baseUrl}}/search
+    method: GET
+    mode: none
+    params:query: {
+      part: 
+      ~q: 
+      ~type: 
+      ~channelId: 
+      ~maxResults: 
+      ~order: 
+      ~publishedAfter: 
+      ~publishedBefore: 
+      ~regionCode: 
+      ~pageToken: 
+      ~key: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 400
+      text: Bad Request
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 400,
+            "message": "Invalid parameter value",
+            "errors": [
+              {
+                "domain": "youtube.parameter",
+                "reason": "invalidParameter",
+                "message": "The parameter 'part' is required",
+                "locationType": "parameter",
+                "location": "part"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Quota exceeded error
+  description: Example error response when API quota is exceeded
+  
+  request: {
+    url: {{baseUrl}}/search
+    method: GET
+    mode: none
+    params:query: {
+      part: 
+      ~q: 
+      ~type: 
+      ~channelId: 
+      ~maxResults: 
+      ~order: 
+      ~publishedAfter: 
+      ~publishedBefore: 
+      ~regionCode: 
+      ~pageToken: 
+      ~key: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 403
+      text: Forbidden
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 403,
+            "message": "Quota exceeded",
+            "errors": [
+              {
+                "domain": "youtube.quota",
+                "reason": "quotaExceeded",
+                "message": "The request cannot be completed because you have exceeded your quota",
+                "locationType": "global",
+                "location": ""
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

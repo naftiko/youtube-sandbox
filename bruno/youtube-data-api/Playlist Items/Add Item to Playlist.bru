@@ -1,0 +1,153 @@
+meta {
+  name: Add Item to Playlist
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/playlistItems
+  body: json
+  auth: inherit
+}
+
+params:query {
+  part: 
+  ~access_token: 
+}
+
+body:json {
+  {
+    "snippet": {
+      "playlistId": "",
+      "position": 0,
+      "resourceId": {
+        "kind": "",
+        "videoId": ""
+      }
+    }
+  }
+}
+
+example {
+  name: Successfully added item to playlist (Add item to playlist request)
+  description: Example response for adding a video to a playlist
+  
+  request: {
+    url: {{baseUrl}}/playlistItems
+    method: POST
+    mode: json
+    params:query: {
+      part: 
+      ~access_token: 
+    }
+  
+    body:json: {
+      {
+        "snippet": {
+          "playlistId": "PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf",
+          "position": 0,
+          "resourceId": {
+            "kind": "youtube#video",
+            "videoId": "dQw4w9WgXcQ"
+          }
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#playlistItem",
+          "etag": "newitem123",
+          "id": "NEWitem456",
+          "snippet": {
+            "publishedAt": "2024-03-20T14:00:00Z",
+            "channelId": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
+            "title": "Added Video Title",
+            "playlistId": "PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf",
+            "position": 0,
+            "resourceId": {
+              "kind": "youtube#video",
+              "videoId": "dQw4w9WgXcQ"
+            }
+          },
+          "contentDetails": {
+            "videoId": "dQw4w9WgXcQ"
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Bad request error (Add item to playlist request)
+  description: Example error response for invalid parameters
+  
+  request: {
+    url: {{baseUrl}}/playlistItems
+    method: POST
+    mode: json
+    params:query: {
+      part: 
+      ~access_token: 
+    }
+  
+    body:json: {
+      {
+        "snippet": {
+          "playlistId": "PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf",
+          "position": 0,
+          "resourceId": {
+            "kind": "youtube#video",
+            "videoId": "dQw4w9WgXcQ"
+          }
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 400
+      text: Bad Request
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 400,
+            "message": "Invalid parameter value",
+            "errors": [
+              {
+                "domain": "youtube.parameter",
+                "reason": "invalidParameter",
+                "message": "The parameter 'part' is required",
+                "locationType": "parameter",
+                "location": "part"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

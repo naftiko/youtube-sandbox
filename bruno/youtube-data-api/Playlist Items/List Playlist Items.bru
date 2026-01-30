@@ -1,0 +1,145 @@
+meta {
+  name: List Playlist Items
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/playlistItems
+  body: none
+  auth: inherit
+}
+
+params:query {
+  part: 
+  playlistId: 
+  ~id: 
+  ~maxResults: 
+  ~pageToken: 
+  ~key: 
+}
+
+example {
+  name: Successful playlist items response
+  description: Example response for retrieving playlist items
+  
+  request: {
+    url: {{baseUrl}}/playlistItems
+    method: GET
+    mode: none
+    params:query: {
+      part: 
+      playlistId: 
+      ~id: 
+      ~maxResults: 
+      ~pageToken: 
+      ~key: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#playlistItemListResponse",
+          "etag": "items123etag",
+          "pageInfo": {
+            "totalResults": 25,
+            "resultsPerPage": 5
+          },
+          "items": [
+            {
+              "kind": "youtube#playlistItem",
+              "etag": "item1etag",
+              "id": "UExmF3p7bTU0NXRLaW00c2dOT2tuR3ZOamJ5OWVmZGYuOTI0NzIzRTJENDg3RUNNQQ",
+              "snippet": {
+                "publishedAt": "2024-03-15T10:30:00Z",
+                "channelId": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
+                "title": "OpenAPI Tutorial: Building REST APIs",
+                "thumbnails": {
+                  "default": {
+                    "url": "https://i.ytimg.com/vi/dQw4w9WgXcQ/default.jpg",
+                    "width": 120,
+                    "height": 90
+                  }
+                },
+                "channelTitle": "Google Developers",
+                "playlistId": "PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf",
+                "position": 0,
+                "resourceId": {
+                  "kind": "youtube#video",
+                  "videoId": "dQw4w9WgXcQ"
+                }
+              },
+              "contentDetails": {
+                "videoId": "dQw4w9WgXcQ",
+                "videoPublishedAt": "2024-03-15T10:30:00Z"
+              }
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Not found error
+  description: Example error response when resource is not found
+  
+  request: {
+    url: {{baseUrl}}/playlistItems
+    method: GET
+    mode: none
+    params:query: {
+      part: 
+      playlistId: 
+      ~id: 
+      ~maxResults: 
+      ~pageToken: 
+      ~key: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 404
+      text: Not Found
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 404,
+            "message": "Resource not found",
+            "errors": [
+              {
+                "domain": "youtube.video",
+                "reason": "videoNotFound",
+                "message": "The video identified by the parameter id could not be found",
+                "locationType": "parameter",
+                "location": "id"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

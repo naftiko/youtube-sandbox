@@ -1,0 +1,148 @@
+meta {
+  name: List Comment Threads
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/commentThreads
+  body: none
+  auth: inherit
+}
+
+params:query {
+  part: 
+  ~videoId: 
+  ~channelId: 
+  ~id: 
+  ~order: 
+  ~maxResults: 
+  ~pageToken: 
+  ~key: 
+}
+
+example {
+  name: Successful comment threads response
+  description: Example response for retrieving comments
+  
+  request: {
+    url: {{baseUrl}}/commentThreads
+    method: GET
+    mode: none
+    params:query: {
+      part: 
+      ~videoId: 
+      ~channelId: 
+      ~id: 
+      ~order: 
+      ~maxResults: 
+      ~pageToken: 
+      ~key: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#commentThreadListResponse",
+          "etag": "comments123etag",
+          "pageInfo": {
+            "totalResults": 2500,
+            "resultsPerPage": 20
+          },
+          "items": [
+            {
+              "kind": "youtube#commentThread",
+              "etag": "thread1etag",
+              "id": "UgzYABCdef123xyz456",
+              "snippet": {
+                "channelId": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
+                "videoId": "dQw4w9WgXcQ",
+                "topLevelComment": {
+                  "kind": "youtube#comment",
+                  "etag": "comment1etag",
+                  "id": "UgzYABCdef123xyz456",
+                  "snippet": {
+                    "authorDisplayName": "John Doe",
+                    "authorProfileImageUrl": "https://yt3.ggpht.com/user.jpg",
+                    "textDisplay": "Great tutorial! Very helpful.",
+                    "textOriginal": "Great tutorial! Very helpful.",
+                    "publishedAt": "2024-03-15T12:30:00Z",
+                    "likeCount": 25
+                  }
+                },
+                "canReply": true,
+                "totalReplyCount": 10,
+                "isPublic": true
+              }
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Not found error
+  description: Example error response when resource is not found
+  
+  request: {
+    url: {{baseUrl}}/commentThreads
+    method: GET
+    mode: none
+    params:query: {
+      part: 
+      ~videoId: 
+      ~channelId: 
+      ~id: 
+      ~order: 
+      ~maxResults: 
+      ~pageToken: 
+      ~key: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 404
+      text: Not Found
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 404,
+            "message": "Resource not found",
+            "errors": [
+              {
+                "domain": "youtube.video",
+                "reason": "videoNotFound",
+                "message": "The video identified by the parameter id could not be found",
+                "locationType": "parameter",
+                "location": "id"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

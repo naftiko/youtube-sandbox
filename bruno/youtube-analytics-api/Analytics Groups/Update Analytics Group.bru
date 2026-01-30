@@ -1,0 +1,207 @@
+meta {
+  name: Update Analytics Group
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/groups/:groupId
+  body: json
+  auth: inherit
+}
+
+params:query {
+  ~onBehalfOfContentOwner: 
+  ~access_token: 
+}
+
+params:path {
+  groupId: 
+}
+
+body:json {
+  {
+    "id": "",
+    "snippet": {
+      "title": ""
+    }
+  }
+}
+
+example {
+  name: Successfully created group (Group update request)
+  description: Example response for a newly created analytics group
+  
+  request: {
+    url: {{baseUrl}}/groups/:groupId
+    method: PUT
+    mode: json
+    params:query: {
+      ~onBehalfOfContentOwner: 
+      ~access_token: 
+    }
+  
+    params:path: {
+      groupId: 
+    }
+  
+    body:json: {
+      {
+        "id": "ABCdef123456",
+        "snippet": {
+          "title": "Updated Analytics Group Name"
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#group",
+          "etag": "newgroup123",
+          "id": "NEWgroup456789",
+          "snippet": {
+            "title": "My New Analytics Group",
+            "publishedAt": "2024-03-01T09:00:00Z"
+          },
+          "contentDetails": {
+            "itemCount": 0,
+            "itemType": "youtube#video"
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Bad request error (Group update request)
+  description: Example error response for invalid parameters
+  
+  request: {
+    url: {{baseUrl}}/groups/:groupId
+    method: PUT
+    mode: json
+    params:query: {
+      ~onBehalfOfContentOwner: 
+      ~access_token: 
+    }
+  
+    params:path: {
+      groupId: 
+    }
+  
+    body:json: {
+      {
+        "id": "ABCdef123456",
+        "snippet": {
+          "title": "Updated Analytics Group Name"
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 400
+      text: Bad Request
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 400,
+            "message": "Invalid parameter value",
+            "errors": [
+              {
+                "domain": "youtube.analytics",
+                "reason": "invalidParameter",
+                "message": "The parameter 'startDate' has an invalid value",
+                "locationType": "parameter",
+                "location": "startDate"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Not found error (Group update request)
+  description: Example error response when resource is not found
+  
+  request: {
+    url: {{baseUrl}}/groups/:groupId
+    method: PUT
+    mode: json
+    params:query: {
+      ~onBehalfOfContentOwner: 
+      ~access_token: 
+    }
+  
+    params:path: {
+      groupId: 
+    }
+  
+    body:json: {
+      {
+        "id": "ABCdef123456",
+        "snippet": {
+          "title": "Updated Analytics Group Name"
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 404
+      text: Not Found
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 404,
+            "message": "Resource not found",
+            "errors": [
+              {
+                "domain": "youtube.analytics",
+                "reason": "notFound",
+                "message": "The specified group was not found",
+                "locationType": "parameter",
+                "location": "groupId"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

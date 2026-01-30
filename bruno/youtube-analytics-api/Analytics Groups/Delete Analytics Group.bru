@@ -1,0 +1,104 @@
+meta {
+  name: Delete Analytics Group
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/groups/:groupId
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~onBehalfOfContentOwner: 
+  ~access_token: 
+}
+
+params:path {
+  groupId: 
+}
+
+example {
+  name: 204 Response
+  description: Successfully deleted the analytics group
+  
+  request: {
+    url: {{baseUrl}}/groups/:groupId
+    method: DELETE
+    mode: none
+    params:query: {
+      ~onBehalfOfContentOwner: 
+      ~access_token: 
+    }
+  
+    params:path: {
+      groupId: 
+    }
+  }
+  
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+  
+    body: {
+      type: text
+      content: '''
+  
+      '''
+    }
+  }
+}
+
+example {
+  name: Not found error
+  description: Example error response when resource is not found
+  
+  request: {
+    url: {{baseUrl}}/groups/:groupId
+    method: DELETE
+    mode: none
+    params:query: {
+      ~onBehalfOfContentOwner: 
+      ~access_token: 
+    }
+  
+    params:path: {
+      groupId: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 404
+      text: Not Found
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 404,
+            "message": "Resource not found",
+            "errors": [
+              {
+                "domain": "youtube.analytics",
+                "reason": "notFound",
+                "message": "The specified group was not found",
+                "locationType": "parameter",
+                "location": "groupId"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

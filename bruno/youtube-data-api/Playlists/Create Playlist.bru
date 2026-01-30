@@ -1,0 +1,159 @@
+meta {
+  name: Create Playlist
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/playlists
+  body: json
+  auth: inherit
+}
+
+params:query {
+  part: 
+  ~access_token: 
+}
+
+body:json {
+  {
+    "snippet": {
+      "title": "",
+      "description": "",
+      "defaultLanguage": ""
+    },
+    "status": {
+      "privacyStatus": ""
+    }
+  }
+}
+
+example {
+  name: Successfully created playlist (Playlist creation request)
+  description: Example response for a newly created playlist
+  
+  request: {
+    url: {{baseUrl}}/playlists
+    method: POST
+    mode: json
+    params:query: {
+      part: 
+      ~access_token: 
+    }
+  
+    body:json: {
+      {
+        "snippet": {
+          "title": "My New Playlist",
+          "description": "A collection of my favorite videos",
+          "defaultLanguage": "en"
+        },
+        "status": {
+          "privacyStatus": "public"
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#playlist",
+          "etag": "newplaylist123",
+          "id": "NEWplaylist456",
+          "snippet": {
+            "publishedAt": "2024-03-20T14:00:00Z",
+            "channelId": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
+            "title": "My New Playlist",
+            "description": "A collection of my favorite videos",
+            "thumbnails": {
+              "default": {
+                "url": "https://i.ytimg.com/vi/default.jpg",
+                "width": 120,
+                "height": 90
+              }
+            },
+            "channelTitle": "My Channel"
+          },
+          "contentDetails": {
+            "itemCount": 0
+          },
+          "status": {
+            "privacyStatus": "public"
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Bad request error (Playlist creation request)
+  description: Example error response for invalid parameters
+  
+  request: {
+    url: {{baseUrl}}/playlists
+    method: POST
+    mode: json
+    params:query: {
+      part: 
+      ~access_token: 
+    }
+  
+    body:json: {
+      {
+        "snippet": {
+          "title": "My New Playlist",
+          "description": "A collection of my favorite videos",
+          "defaultLanguage": "en"
+        },
+        "status": {
+          "privacyStatus": "public"
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 400
+      text: Bad Request
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 400,
+            "message": "Invalid parameter value",
+            "errors": [
+              {
+                "domain": "youtube.parameter",
+                "reason": "invalidParameter",
+                "message": "The parameter 'part' is required",
+                "locationType": "parameter",
+                "location": "part"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

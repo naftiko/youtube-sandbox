@@ -1,0 +1,101 @@
+meta {
+  name: Remove Item from Playlist
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{baseUrl}}/playlistItems/:playlistItemId
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~access_token: 
+}
+
+params:path {
+  playlistItemId: 
+}
+
+example {
+  name: 204 Response
+  description: Successfully removed item from playlist
+  
+  request: {
+    url: {{baseUrl}}/playlistItems/:playlistItemId
+    method: DELETE
+    mode: none
+    params:query: {
+      ~access_token: 
+    }
+  
+    params:path: {
+      playlistItemId: 
+    }
+  }
+  
+  response: {
+    status: {
+      code: 204
+      text: No Content
+    }
+  
+    body: {
+      type: text
+      content: '''
+  
+      '''
+    }
+  }
+}
+
+example {
+  name: Not found error
+  description: Example error response when resource is not found
+  
+  request: {
+    url: {{baseUrl}}/playlistItems/:playlistItemId
+    method: DELETE
+    mode: none
+    params:query: {
+      ~access_token: 
+    }
+  
+    params:path: {
+      playlistItemId: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 404
+      text: Not Found
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 404,
+            "message": "Resource not found",
+            "errors": [
+              {
+                "domain": "youtube.video",
+                "reason": "videoNotFound",
+                "message": "The video identified by the parameter id could not be found",
+                "locationType": "parameter",
+                "location": "id"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

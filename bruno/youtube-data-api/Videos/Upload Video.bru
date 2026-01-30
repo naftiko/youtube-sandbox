@@ -1,0 +1,252 @@
+meta {
+  name: Upload Video
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/videos
+  body: json
+  auth: inherit
+}
+
+params:query {
+  part: 
+  ~notifySubscribers: 
+  ~access_token: 
+}
+
+body:json {
+  {
+    "snippet": {
+      "title": "",
+      "description": "",
+      "tags": [],
+      "categoryId": "",
+      "defaultLanguage": ""
+    },
+    "status": {
+      "privacyStatus": "",
+      "embeddable": false,
+      "license": ""
+    }
+  }
+}
+
+example {
+  name: Successfully uploaded video (Video upload request)
+  description: Example response for a newly uploaded video
+  
+  request: {
+    url: {{baseUrl}}/videos
+    method: POST
+    mode: json
+    params:query: {
+      part: 
+      ~notifySubscribers: 
+      ~access_token: 
+    }
+  
+    body:json: {
+      {
+        "snippet": {
+          "title": "My New Video",
+          "description": "This is my new video about...",
+          "tags": [
+            "tutorial",
+            "demo"
+          ],
+          "categoryId": "28",
+          "defaultLanguage": "en"
+        },
+        "status": {
+          "privacyStatus": "public",
+          "embeddable": true,
+          "license": "youtube"
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#video",
+          "etag": "newvideo123",
+          "id": "NEWvideo456",
+          "snippet": {
+            "publishedAt": "2024-03-20T14:00:00Z",
+            "channelId": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
+            "title": "My New Video",
+            "description": "This is my new video about...",
+            "thumbnails": {
+              "default": {
+                "url": "https://i.ytimg.com/vi/NEWvideo456/default.jpg",
+                "width": 120,
+                "height": 90
+              }
+            },
+            "channelTitle": "My Channel",
+            "tags": [
+              "tutorial",
+              "demo"
+            ],
+            "categoryId": "28"
+          },
+          "status": {
+            "uploadStatus": "processed",
+            "privacyStatus": "public",
+            "embeddable": true
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Bad request error (Video upload request)
+  description: Example error response for invalid parameters
+  
+  request: {
+    url: {{baseUrl}}/videos
+    method: POST
+    mode: json
+    params:query: {
+      part: 
+      ~notifySubscribers: 
+      ~access_token: 
+    }
+  
+    body:json: {
+      {
+        "snippet": {
+          "title": "My New Video",
+          "description": "This is my new video about...",
+          "tags": [
+            "tutorial",
+            "demo"
+          ],
+          "categoryId": "28",
+          "defaultLanguage": "en"
+        },
+        "status": {
+          "privacyStatus": "public",
+          "embeddable": true,
+          "license": "youtube"
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 400
+      text: Bad Request
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 400,
+            "message": "Invalid parameter value",
+            "errors": [
+              {
+                "domain": "youtube.parameter",
+                "reason": "invalidParameter",
+                "message": "The parameter 'part' is required",
+                "locationType": "parameter",
+                "location": "part"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Unauthorized error (Video upload request)
+  description: Example error response for authentication failure
+  
+  request: {
+    url: {{baseUrl}}/videos
+    method: POST
+    mode: json
+    params:query: {
+      part: 
+      ~notifySubscribers: 
+      ~access_token: 
+    }
+  
+    body:json: {
+      {
+        "snippet": {
+          "title": "My New Video",
+          "description": "This is my new video about...",
+          "tags": [
+            "tutorial",
+            "demo"
+          ],
+          "categoryId": "28",
+          "defaultLanguage": "en"
+        },
+        "status": {
+          "privacyStatus": "public",
+          "embeddable": true,
+          "license": "youtube"
+        }
+      }
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 401
+      text: Unauthorized
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 401,
+            "message": "Invalid credentials",
+            "errors": [
+              {
+                "domain": "youtube.authentication",
+                "reason": "authError",
+                "message": "The access token is invalid or expired",
+                "locationType": "header",
+                "location": "Authorization"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}

@@ -1,0 +1,145 @@
+meta {
+  name: List Playlists
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/playlists
+  body: none
+  auth: inherit
+}
+
+params:query {
+  part: 
+  ~id: 
+  ~channelId: 
+  ~mine: 
+  ~maxResults: 
+  ~pageToken: 
+  ~key: 
+}
+
+example {
+  name: Successful playlist list response
+  description: Example response for retrieving playlists
+  
+  request: {
+    url: {{baseUrl}}/playlists
+    method: GET
+    mode: none
+    params:query: {
+      part: 
+      ~id: 
+      ~channelId: 
+      ~mine: 
+      ~maxResults: 
+      ~pageToken: 
+      ~key: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 200
+      text: OK
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "kind": "youtube#playlistListResponse",
+          "etag": "playlist123etag",
+          "pageInfo": {
+            "totalResults": 2,
+            "resultsPerPage": 5
+          },
+          "items": [
+            {
+              "kind": "youtube#playlist",
+              "etag": "pl1etag",
+              "id": "PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf",
+              "snippet": {
+                "publishedAt": "2024-01-15T10:30:00Z",
+                "channelId": "UC_x5XG1OV2P6uZZ5FSM9Ttw",
+                "title": "API Development Tutorials",
+                "description": "A collection of tutorials...",
+                "thumbnails": {
+                  "default": {
+                    "url": "https://i.ytimg.com/vi/playlist1/default.jpg",
+                    "width": 120,
+                    "height": 90
+                  }
+                },
+                "channelTitle": "Google Developers"
+              },
+              "contentDetails": {
+                "itemCount": 25
+              },
+              "status": {
+                "privacyStatus": "public"
+              }
+            }
+          ]
+        }
+      '''
+    }
+  }
+}
+
+example {
+  name: Not found error
+  description: Example error response when resource is not found
+  
+  request: {
+    url: {{baseUrl}}/playlists
+    method: GET
+    mode: none
+    params:query: {
+      part: 
+      ~id: 
+      ~channelId: 
+      ~mine: 
+      ~maxResults: 
+      ~pageToken: 
+      ~key: 
+    }
+  }
+  
+  response: {
+    headers: {
+      Content-Type: application/json
+    }
+  
+    status: {
+      code: 404
+      text: Not Found
+    }
+  
+    body: {
+      type: json
+      content: '''
+        {
+          "error": {
+            "code": 404,
+            "message": "Resource not found",
+            "errors": [
+              {
+                "domain": "youtube.video",
+                "reason": "videoNotFound",
+                "message": "The video identified by the parameter id could not be found",
+                "locationType": "parameter",
+                "location": "id"
+              }
+            ]
+          }
+        }
+      '''
+    }
+  }
+}
