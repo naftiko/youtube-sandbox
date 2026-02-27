@@ -13,7 +13,7 @@ tags:
   - Videos
   - Podcasts
 
-image: https://naftiko.s3.us-east-1.amazonaws.com/naftiko-logo-blue-icon.png
+image: https://naftiko.github.io/docs/images/monogram/monogram_full_color_512.png
 
 created: '2026-01-29'
 modified: '2026-01-29'
@@ -30,6 +30,9 @@ apis:
         analytics reports, track video performance metrics, monitor audience
         engagement, and gain insights into viewer demographics and behavior
         patterns.
+      humanURL: https://github.com/naftiko/youtube-sandbox
+      baseURL: http://localhost:8080/rest/youtube-sandbox/1.0.0
+      image: https://naftiko.github.io/docs/images/monogram/monogram_full_color_512.png
       tags:
         - Analytics Groups
         - Analytics Reports
@@ -51,6 +54,9 @@ apis:
         The YouTube Data API enables you to incorporate YouTube functionality
         into your applications. Use this API to manage YouTube resources such as
         videos, playlists, channels, and subscriptions.
+      humanURL: https://github.com/naftiko/youtube-sandbox
+      baseURL: http://localhost:8080/rest/youtube-sandbox/1.0.0
+      image: https://naftiko.github.io/docs/images/monogram/monogram_full_color_512.png
       tags:
         - Captions
         - Channels
@@ -75,6 +81,7 @@ apis:
 common:
 
   - type: Summary
+    url: https://github.com/naftiko/youtube-sandbox
     data:
       numberOfPaths: 17
       numberOfOperations: 27
@@ -140,6 +147,7 @@ common:
     url: https://github.com/orgs/naftiko/discussions
 
   - type: Standards
+    url: https://github.com/naftiko/youtube-sandbox
     data:
 
       - name: APIs.json
@@ -171,6 +179,7 @@ common:
         docUrl: https://apicommons.org/
 
   - type: Services
+    url: https://github.com/naftiko/youtube-sandbox
     data:
 
       - aid: youtube
