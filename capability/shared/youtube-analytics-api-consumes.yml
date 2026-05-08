@@ -1,0 +1,21 @@
+naftiko: "1.0.0-alpha2"
+consumes:
+  - namespace: youtube-analytics-api
+    type: http
+    baseUri: "https://mocks.naftiko.net/rest/youtube-analytics-api/2.0.0"
+    resources:
+      - name: get-analytics-group
+        path: "/groups/{{groupId}}"
+        operations:
+          - name: get-analytics-group
+            method: GET
+      - name: get-analytics-reports
+        path: "/reports"
+        operations:
+          - name: get-analytics-reports
+            method: GET
+      - name: list-analytics-groups
+        path: "/groups"
+        operations:
+          - name: list-analytics-groups
+            method: GET

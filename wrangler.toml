@@ -1,0 +1,18 @@
+name = "naftiko-youtube-sandbox"
+main = "src/index.ts"
+compatibility_date = "2026-05-06"
+compatibility_flags = ["nodejs_compat"]
+
+[[containers]]
+class_name = "YoutubeSandboxContainer"
+image = "./Dockerfile"
+instance_type = "standard-1"
+max_instances = 1
+
+[[durable_objects.bindings]]
+name = "YOUTUBE_SANDBOX"
+class_name = "YoutubeSandboxContainer"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["YoutubeSandboxContainer"]
